@@ -22,7 +22,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
+      url: ${{ steps.deploy_master.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -35,13 +35,13 @@ jobs:
         if: github.ref == 'refs/heads/master'
         uses: actions/upload-pages-artifact@v2
         with:
-          path: 'Build' # Path to your pre-built WebGL files
+          path: '.' # Upload the entire repository to retain the folder structure
 
       - name: Upload artifact for develop branch
         if: github.ref == 'refs/heads/develop'
         uses: actions/upload-pages-artifact@v2
         with:
-          path: 'Build'
+          path: '.'
           retention-days: 1
 
       - name: Deploy to GitHub Pages (master)

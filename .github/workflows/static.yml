@@ -29,9 +29,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '20'
 
       - name: Install dependencies
         run: npm install
@@ -40,17 +40,17 @@ jobs:
         run: npm run build
 
       - name: Setup Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v4
 
       - name: Upload artifact for master branch
         if: github.ref == 'refs/heads/master'
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v2
         with:
           path: 'Build' # Path to your build output directory
 
       - name: Upload artifact for develop branch
         if: github.ref == 'refs/heads/develop'
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v2
         with:
           path: 'Build'
           retention-days: 1
@@ -58,12 +58,12 @@ jobs:
       - name: Deploy to GitHub Pages (master)
         if: github.ref == 'refs/heads/master'
         id: deploy_master
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v2
 
       - name: Deploy to GitHub Pages (develop)
         if: github.ref == 'refs/heads/develop'
         id: deploy_develop
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v2
         with:
           branch: gh-pages # Target branch for GitHub Pages
           path: dev # Subdirectory for the develop branch

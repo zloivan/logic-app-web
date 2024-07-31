@@ -22,7 +22,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deploy_master.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -43,7 +43,7 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: Upload artifact for master branch
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
         uses: actions/upload-pages-artifact@v3
         with:
           path: 'Build' # Path to your build output directory
@@ -57,12 +57,12 @@ jobs:
 
       - name: Deploy to GitHub Pages (master)
         if: github.ref == 'refs/heads/master'
-        id: deployment
+        id: deploy_master
         uses: actions/deploy-pages@v4
 
       - name: Deploy to GitHub Pages (develop)
         if: github.ref == 'refs/heads/develop'
-        id: deployment
+        id: deploy_develop
         uses: actions/deploy-pages@v4
         with:
           branch: gh-pages # Target branch for GitHub Pages

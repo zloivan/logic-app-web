@@ -20,7 +20,7 @@ concurrency:
 jobs:
   deploy:
     environment:
-      name: develop-logic-web # More meaningful name for the environment
+      name: develop-logic-web
       url: ${{ steps.deploy_develop.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
@@ -30,15 +30,22 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
+      - name: Move files to dev directory
+        run: |
+          mkdir -p out/dev
+          mv * out/dev
+          cd out
+        shell: bash
+
       - name: Upload artifact for develop branch
         uses: actions/upload-pages-artifact@v2
         with:
-          path: '.' # Upload the entire repository to retain the folder structure
+          path: 'out/dev'
           retention-days: 1
 
       - name: Deploy to GitHub Pages
         id: deploy_develop
         uses: actions/deploy-pages@v2
         with:
-          branch: gh-pages # Target branch for GitHub Pages
-          path: dev # Subdirectory for the develop branch
+          branch: gh-pages
+          path: dev

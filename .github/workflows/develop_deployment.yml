@@ -30,11 +30,11 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Move files to dev directory
+      - name: Prepare dev directory
         run: |
           mkdir -p out/dev
-          mv * out/dev
-          cd out
+          shopt -s extglob
+          mv !(out) out/dev
         shell: bash
 
       - name: Upload artifact for develop branch

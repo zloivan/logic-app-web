@@ -1,0 +1,44 @@
+# Workflow for deploying develop branch to GitHub Pages
+name: Deploy develop branch to Pages
+
+on:
+  push:
+    branches:
+      - develop
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: develop-logic-web # More meaningful name for the environment
+      url: ${{ steps.deploy_develop.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact for develop branch
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: '.' # Upload the entire repository to retain the folder structure
+          retention-days: 1
+
+      - name: Deploy to GitHub Pages
+        id: deploy_develop
+        uses: actions/deploy-pages@v2
+        with:
+          branch: gh-pages # Target branch for GitHub Pages
+          path: dev # Subdirectory for the develop branch
